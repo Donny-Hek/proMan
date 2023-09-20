@@ -1,4 +1,4 @@
-package entity;
+package com.pm.proman.model;
 
 import jakarta.persistence.*;
 
@@ -17,7 +17,7 @@ public class User {
     private String email;
     @Column(name = "password_pm", nullable = false)
     private String password;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "User")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Project> projects = new ArrayList<>();
 
     public void setId (int id) {

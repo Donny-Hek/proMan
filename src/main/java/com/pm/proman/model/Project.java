@@ -1,6 +1,9 @@
-package entity;
+package com.pm.proman.model;
 
 import jakarta.persistence.*;
+
+//import java.util.ArrayList;
+//import java.util.List;
 
 @Entity
 @Table(name = "projects")
@@ -17,6 +20,9 @@ public class Project {
     @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_pm")
     private User user;
+
+//    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
+//    private List<Content> content = new ArrayList<>();
 
     public void setId (int id) {
         this.id = id;
@@ -42,13 +48,13 @@ public class Project {
         this.name = name;
     }
 
-    public String getContent () {
-        return content;
-    }
-
-    public void setContent (String content) {
-        this.content = content;
-    }
+//    public String getContent () {
+//        return content;
+//    }
+//
+//    public void setContent (String content) {
+//        this.content = content;
+//    }
 
 /*
     @Override
