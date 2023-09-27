@@ -1,13 +1,14 @@
 package com.pm.proman.model;
 
 import jakarta.persistence.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "login_pm")
-public class User {
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;//был long, у нас integer в бд
@@ -19,6 +20,10 @@ public class User {
     private String password;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Project> projects = new ArrayList<>();
+    @Transient
+    private String passwordConfirm;
+    @OneToOne
+    private Role role;
 
     public void setId (int id) {
         this.id = id;
@@ -30,6 +35,26 @@ public class User {
 
     public String getUsername () {
         return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired () {
+        return true;//было false
+    }
+
+    @Override
+    public boolean isAccountNonLocked () {
+        return true;//было false
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired () {
+        return true;//было false
+    }
+
+    @Override
+    public boolean isEnabled () {
+        return true;//было false
     }
 
     public void setUsername (String username) {
@@ -44,12 +69,25 @@ public class User {
         this.email = email;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities () {
+        return Collections.singleton(getRole());
+    }
+
     public String getPassword () {
         return password;
     }
 
     public void setPassword (String password) {
         this.password = password;
+    }
+
+    public String getPasswordConfirm () {
+        return passwordConfirm;
+    }
+
+    public void setPasswordConfirm (String passwordConfirm) {
+        this.passwordConfirm = passwordConfirm;
     }
 
     public List<Project> getProjects () {
@@ -60,7 +98,14 @@ public class User {
         this.projects = projects;
     }
 
-    /*
+    public void setRole (Role role) {
+        this.role = role;
+    }
+
+    public Role getRole () {
+        return role;
+    }
+/*
     @Override
     public int hashCode () {
         int result = id;

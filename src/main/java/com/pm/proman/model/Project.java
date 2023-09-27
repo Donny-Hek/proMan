@@ -2,9 +2,6 @@ package com.pm.proman.model;
 
 import jakarta.persistence.*;
 
-//import java.util.ArrayList;
-//import java.util.List;
-
 @Entity
 @Table(name = "projects")
 public class Project {
