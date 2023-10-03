@@ -5,15 +5,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Set;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterRequest {
-    private String username;
+public class LoginRequest {
     private String email;
-    private Set<String> role;
-    private String password;
+    String password;
 }

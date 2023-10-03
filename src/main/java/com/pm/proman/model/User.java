@@ -1,24 +1,20 @@
 package com.pm.proman.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.*;
 
 @Data
 @Builder
 @AllArgsConstructor
-@NoArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "login_pm")
-public class User implements UserDetails {
+public class User {
     @Id
     @GeneratedValue
     @Column(name = "id_pm")
@@ -32,41 +28,14 @@ public class User implements UserDetails {
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
     private List<Project> projects = new ArrayList<>();
-    @Enumerated(EnumType.STRING)
-    private Role role;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities () {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    @Override
-    public String getPassword () {
-        return password;
-    }
-
-    @Override
-    public String getUsername () {
-        return email;
-    }
-
-    @Override
-    public boolean isAccountNonExpired () {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked () {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired () {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled () {
-        return true;
+    public User (String username, String email, String password) {
+        this.nickname = username;
+        this.email = email;
+        this.password = password;
     }
 }
