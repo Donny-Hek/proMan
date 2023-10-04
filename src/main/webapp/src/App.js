@@ -20,8 +20,8 @@ class App extends Component {
     this.logOut = this.logOut.bind(this);
 
     this.state = {
-      showModeratorBoard: false,
-      showAdminBoard: false,
+      // showModeratorBoard: false,
+      // showAdminBoard: false,
       currentUser: undefined,
     };
   }
@@ -48,15 +48,16 @@ class App extends Component {
   logOut() {
     AuthService.logout();
     this.setState({
-      showModeratorBoard: false,
-      showAdminBoard: false,
+      // showModeratorBoard: false,
+      // showAdminBoard: false,
       currentUser: undefined,
     });
   }
 
   render() {
-    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    // const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
 
+    const { currentUser } = this.state;
     return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -117,7 +118,8 @@ class App extends Component {
               </li>
 
               <li className="nav-item">
-                <Link to={"/register"} className="nav-link">
+                <Link to={"/signup"} className="nav-link">
+                  {/* было register */}
                   Sign Up
                 </Link>
               </li>
@@ -130,7 +132,8 @@ class App extends Component {
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/signup" element={<Register />} />
+            {/* было register */}
             <Route path="/profile" element={<Profile />} />
             <Route path="/user" element={<BoardUser />} />
             {/* <Route path="/mod" element={<BoardModerator />} />

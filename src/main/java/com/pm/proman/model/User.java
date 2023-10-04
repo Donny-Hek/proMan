@@ -2,10 +2,6 @@ package com.pm.proman.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import java.util.*;
 
 @Data
@@ -13,7 +9,11 @@ import java.util.*;
 @AllArgsConstructor
 @RequiredArgsConstructor
 @Entity
-@Table(name = "login_pm")
+@Table(name = "login_pm", uniqueConstraints = {
+        @UniqueConstraint(columnNames = "nickname"),
+        @UniqueConstraint(columnNames = "email")
+})
+
 public class User {
     @Id
     @GeneratedValue
