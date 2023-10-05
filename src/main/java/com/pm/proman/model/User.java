@@ -20,7 +20,7 @@ public class User {
     @Column(name = "id_pm")
     private int id;//был long, у нас integer в бд
     @Column(name = "nickname", nullable = false)
-    private String nickname;
+    private String username;
     @Column(name = "email", nullable = false)
     private String email;
     @Column(name = "password_pm", nullable = false)
@@ -34,7 +34,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     public User (String username, String email, String password) {
-        this.nickname = username;
+        this.username = username;
         this.email = email;
         this.password = password;
     }

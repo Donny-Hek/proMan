@@ -104,7 +104,7 @@ class App extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <a href="/login" className="nav-link" onClick={this.logOut}>
+                <a href="/signin" className="nav-link" onClick={this.logOut}>
                   LogOut
                 </a>
               </li>
@@ -112,7 +112,7 @@ class App extends Component {
           ) : (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to={"/login"} className="nav-link">
+                <Link to={"/signin"} className="nav-link">
                   Login
                 </Link>
               </li>
@@ -131,7 +131,8 @@ class App extends Component {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/login" element={<Login />} />
+            <Route path="/signin" element={<Login />} />
+            {/* <Route path="/login" element={<Login />} /> */}
             <Route path="/signup" element={<Register />} />
             {/* было register */}
             <Route path="/profile" element={<Profile />} />

@@ -1,10 +1,7 @@
 package com.pm.proman.service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.pm.proman.model.Role;
 import com.pm.proman.model.User;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,7 +36,7 @@ public class UserDetailsImpl implements UserDetails {
                 .collect(Collectors.toList());
 
         return new UserDetailsImpl(user.getId(),
-                                   user.getNickname(),
+                                   user.getUsername(),
                                    user.getEmail(),
                                    user.getPassword(),
                                    authorities);

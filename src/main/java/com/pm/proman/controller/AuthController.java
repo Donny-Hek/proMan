@@ -8,7 +8,7 @@ import com.pm.proman.repository.UserRepository;
 import com.pm.proman.request_response.JwtResponse;
 import com.pm.proman.request_response.LoginRequest;
 import com.pm.proman.request_response.MessageResponse;
-import com.pm.proman.request_response.RegisterRequest;
+import com.pm.proman.request_response.SignupRequest;
 import com.pm.proman.security.JwtUtils;
 import com.pm.proman.service.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
@@ -25,7 +25,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(value = "http://localhost:8081")
+//@CrossOrigin(value = "http://localhost:8081")
+@CrossOrigin(origins = "http://localhost:8081")
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -41,7 +42,7 @@ public class AuthController {
 
         Authentication authentication = authenticationManager
                 .authenticate(
-                        new UsernamePasswordAuthenticationToken(loginRequest.getEmail(), loginRequest.getPassword()));
+                        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -56,8 +57,8 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> registerUser (@RequestBody RegisterRequest signUpRequest) {
-        if (userRepository.existsByNickname(signUpRequest.getUsername())) {
+    public ResponseEntity<?> registerUser (@RequestBody SignupRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Username is already taken!"));
         }
 
@@ -78,18 +79,18 @@ public class AuthController {
         } else {
             strRoles.forEach(role -> {
                 switch (role) {
-//                    case "admin":
-//                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
-//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                        roles.add(adminRole);
-//
-//                        break;
-//                    case "mod":
-//                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
-//                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
-//                        roles.add(modRole);
-//
-//                        break;
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    case "mod":
+                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(modRole);
+
+                        break;
                     default:
                         Role userRole = roleRepository.findByName(ERole.ROLE_USER)
                                 .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
