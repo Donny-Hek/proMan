@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Form from "react-validation/build/input";
+import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
@@ -58,6 +58,8 @@ export default class Register extends Component {
             username: "",
             email: "",
             password: "",
+            roles: [],
+            // roles от меня
             successful: false,
             message: ""
         };
@@ -95,7 +97,8 @@ export default class Register extends Component {
             AuthService.register(
                 this.state.username,
                 this.state.email,
-                this.state.password
+                this.state.password,
+                this.state.roles
             ).then(
                 response => {
                     this.setState({
@@ -119,17 +122,10 @@ export default class Register extends Component {
             );
         }
     }
-
     render() {
         return (
             <div className="col-md-12">
                 <div className="card card-container">
-                    <img
-                        src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-                        alt="profile-img"
-                        className="profile-img-card"
-                    />
-
                     <Form
                         onSubmit={this.handleRegister}
                         ref={c => {

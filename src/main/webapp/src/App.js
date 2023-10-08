@@ -3,6 +3,8 @@ import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import AuthService from "./service/auth.service";
+
 import Login from "./component/login.component";
 import Register from "./component/register.component";
 import Home from "./component/home.component";
@@ -10,8 +12,8 @@ import Profile from "./component/profile.component";
 import BoardUser from "./component/board-user.component";
 // import BoardModerator from "./component/board-moderator.component";
 // import BoardAdmin from "./component/board-admin.component";
-import AuthService from "./service/auth.service";
-import AuthVerify from "./common/auth-verify";
+
+// import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
 
 class App extends Component {
@@ -36,6 +38,7 @@ class App extends Component {
         // showAdminBoard: user.roles.includes("ROLE_ADMIN"),
       });
     }
+
     EventBus.on("logout", () => {
       this.logOut();
     });
@@ -48,16 +51,15 @@ class App extends Component {
   logOut() {
     AuthService.logout();
     this.setState({
-      // showModeratorBoard: false,
-      // showAdminBoard: false,
+      showModeratorBoard: false,
+      showAdminBoard: false,
       currentUser: undefined,
     });
   }
 
   render() {
-    // const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
+    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
 
-    const { currentUser } = this.state;
     return (
       <div>
         <nav className="navbar navbar-expand navbar-dark bg-dark">
@@ -77,9 +79,9 @@ class App extends Component {
                   Moderator Board
                 </Link>
               </li>
-            )} */}
+            )}
 
-            {/* {showAdminBoard && (
+            {showAdminBoard && (
               <li className="nav-item">
                 <Link to={"/admin"} className="nav-link">
                   Admin Board
@@ -104,7 +106,7 @@ class App extends Component {
                 </Link>
               </li>
               <li className="nav-item">
-                <a href="/signin" className="nav-link" onClick={this.logOut}>
+                <a href="/login" className="nav-link" onClick={this.logOut}>
                   LogOut
                 </a>
               </li>
@@ -112,14 +114,13 @@ class App extends Component {
           ) : (
             <div className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to={"/signin"} className="nav-link">
+                <Link to={"/login"} className="nav-link">
                   Login
                 </Link>
               </li>
 
               <li className="nav-item">
-                <Link to={"/signup"} className="nav-link">
-                  {/* было register */}
+                <Link to={"/register"} className="nav-link">
                   Sign Up
                 </Link>
               </li>
@@ -131,17 +132,16 @@ class App extends Component {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/signin" element={<Login />} />
-            {/* <Route path="/login" element={<Login />} /> */}
-            <Route path="/signup" element={<Register />} />
-            {/* было register */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/user" element={<BoardUser />} />
             {/* <Route path="/mod" element={<BoardModerator />} />
             <Route path="/admin" element={<BoardAdmin />} /> */}
           </Routes>
         </div>
-        <AuthVerify logOut={this.logOut} />
+
+        {/* <AuthVerify logOut={this.logOut}/> */}
       </div>
     );
   }

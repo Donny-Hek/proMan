@@ -1,15 +1,20 @@
-import axios from 'axios'
-const API_URL = "http:/localhost:8080/auth/"
+import axios from "axios";
+
+const API_URL = "http://localhost:8080/auth/";
 
 class AuthService {
     login(username, password) {
         return axios
-            .post(API_URL + "segnin", { username, password })
-            .then(responce => {
-                if (responce.data.accessToken) {
-                    localStorage.setItem("user", JSON.stringify(responce.data))
+            .post(API_URL + "signin", {
+                username,
+                password
+            })
+            .then(response => {
+                if (response.data.accessToken) {
+                    localStorage.setItem("user", JSON.stringify(response.data));
                 }
-                return responce.data;
+
+                return response.data;
             });
     }
 
@@ -17,13 +22,17 @@ class AuthService {
         localStorage.removeItem("user");
     }
 
-    register(username, email, password) {
-        return axios
-            .post(API_URL + "signup", { username, email, password });
+    register(username, email, password,roles) {
+        return axios.post(API_URL + "signup", {
+            username,
+            email,
+            password,
+            roles
+        });
     }
 
     getCurrentUser() {
-        return JSON.parse(localStorage.getItem('user'));
+        return JSON.parse(localStorage.getItem('user'));;
     }
 }
 
