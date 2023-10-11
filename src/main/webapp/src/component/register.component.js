@@ -59,7 +59,6 @@ export default class Register extends Component {
             email: "",
             password: "",
             roles: [],
-            // roles от меня
             successful: false,
             message: ""
         };

@@ -9,20 +9,21 @@ class AuthService {
                 username,
                 password
             })
-            .then(response => {
-                if (response.data.accessToken) {
-                    localStorage.setItem("user", JSON.stringify(response.data));
+            .then(
+                response => {
+                    if (response.data.token) {
+                        localStorage.setItem("user", JSON.stringify(response.data));
+                    }
+                    return response.data;
                 }
-
-                return response.data;
-            });
+            );
     }
 
     logout() {
         localStorage.removeItem("user");
     }
 
-    register(username, email, password,roles) {
+    register(username, email, password, roles) {
         return axios.post(API_URL + "signup", {
             username,
             email,
