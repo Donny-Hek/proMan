@@ -57,7 +57,7 @@ class Login extends Component {
         if (this.checkBtn.context._errors.length === 0) {
             AuthService.login(this.state.username, this.state.password).then(
                 () => {
-                    this.props.router.navigate("/profile");
+                    this.props.router.navigate("/board");
                     window.location.reload();
                 },
                 error => {
@@ -140,6 +140,9 @@ class Login extends Component {
                                 this.checkBtn = c;
                             }}
                         />
+                        <a href="/register">
+                            Don't have an account? Signup
+                        </a>
                     </Form>
                 </div>
             </div>

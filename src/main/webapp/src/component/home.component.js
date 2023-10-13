@@ -12,21 +12,21 @@ export default class Home extends Component {
     }
 
     componentDidMount() {
-        UserService.getPublicContent().then(
-            response => {
-                this.setState({
-                    content: response.data
-                });
-            },
-            error => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString()
-                });
-            }
-        );
+        // UserService.getPublicContent().then(
+        //     response => {
+        //         this.setState({
+        //             content: response.data
+        //         });
+        //     },
+        //     error => {
+        //         this.setState({
+        //             content:
+        //                 (error.response && error.response.data) ||
+        //                 error.message ||
+        //                 error.toString()
+        //         });
+        //     }
+        // );
     }
 
     render() {
@@ -35,6 +35,7 @@ export default class Home extends Component {
                 <header className="jumbotron">
                     <h3>{this.state.content}</h3>
                 </header>
+                
             </div>
         );
     }
