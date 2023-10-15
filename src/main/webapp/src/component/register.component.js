@@ -195,6 +195,9 @@ export default class Register extends Component {
                                 this.checkBtn = c;
                             }}
                         />
+                        <a href="/login">
+                            SignIn
+                        </a>
                     </Form>
                 </div>
             </div>

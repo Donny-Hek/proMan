@@ -140,6 +140,9 @@ class Login extends Component {
                                 this.checkBtn = c;
                             }}
                         />
+                        <a href="/register">
+                            Don't have an account? Signup
+                        </a>
                     </Form>
                 </div>
             </div>

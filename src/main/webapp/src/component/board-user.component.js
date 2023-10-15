@@ -42,6 +42,7 @@ export default class BoardUser extends Component {
                 <header className="jumbotron">
                     <h3>{this.state.content}</h3>
                 </header>
+                тут контент для главной домашней страницы
             </div>
         );
     }
