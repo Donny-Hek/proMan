@@ -1,15 +1,22 @@
 package com.pm.proman.model;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
 @Entity
 @Table(name = "projects")
 public class Project {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "state")
-    private String state;
+    @Column(name = "id_project")
+    private long id;
     @Column(name = "name_project")
     private String name;
     @Column(name = "content")
@@ -21,29 +28,22 @@ public class Project {
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
 //    private List<Content> content = new ArrayList<>();
 
-    public void setId (int id) {
-        this.id = id;
-    }
-
-    public int getId () {
-        return id;
-    }
-
-    public String getState () {
-        return state;
-    }
-
-    public void setState (String state) {
-        this.state = state;
-    }
-
-    public String getName () {
-        return name;
-    }
-
-    public void setName (String name) {
-        this.name = name;
-    }
+//    public void setId (int id) {
+//        this.id = id;
+//    }
+//
+//    public int getId () {
+//        return id;
+//    }
+//
+//
+//    public String getName () {
+//        return name;
+//    }
+//
+//    public void setName (String name) {
+//        this.name = name;
+//    }
 
 //    public String getContent () {
 //        return content;

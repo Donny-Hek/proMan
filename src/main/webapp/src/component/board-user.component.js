@@ -2,12 +2,14 @@ import React, { Component } from "react";
 
 import UserService from "../service/user.service";
 import EventBus from "../common/EventBus";
+import { withRouter } from "../common/with-router";
+import { useParams } from "react-router-dom";
 
-export default class BoardUser extends Component {
+class BoardUser extends Component {
     constructor(props) {
         super(props);
-
         this.state = {
+
             content: ""
         };
     }
@@ -34,9 +36,18 @@ export default class BoardUser extends Component {
                 }
             }
         );
+        UserService.printAllProjects().then(
+            response => {
+                this.setState({
+                    projectList: response.data
+                });
+            }
+        );
     }
 
     render() {
+        // тут будут канбан
+
         return (
             <div className="container">
                 <header className="jumbotron">
@@ -47,3 +58,4 @@ export default class BoardUser extends Component {
         );
     }
 }
+export default withRouter(BoardUser);

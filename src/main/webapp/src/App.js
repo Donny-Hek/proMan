@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
@@ -7,11 +7,11 @@ import AuthService from "./service/auth.service";
 
 import Login from "./component/login.component";
 import Register from "./component/register.component";
-import Home from "./component/home.component";
+// import Home from "./component/home.component";
 import Profile from "./component/profile.component";
 import BoardUser from "./component/board-user.component";
 
-// import AuthVerify from "./common/auth-verify";
+import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
 import AppLayout from "./layout.jsx/app.layout";
 import AuthLayout from "./layout.jsx/auth.layout";
@@ -47,13 +47,14 @@ class App extends Component {
   logOut() {
     AuthService.logout();
     this.setState({
-      
+      showModeratorBoard: false,
+      showAdminBoard: false,
       currentUser: undefined,
     });
   }
 
   render() {
-    const { currentUser} = this.state;
+    const { currentUser, showModeratorBoard, showAdminBoard } = this.state;
 
     return (
       <div>

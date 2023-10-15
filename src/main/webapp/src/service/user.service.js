@@ -4,11 +4,7 @@ import authHeader from './auth-header';
 const API_URL = 'http://localhost:8080/test/';
 
 class UserService {
-  getPublicContent() {
-    return axios.get(API_URL + 'all');
-  }
-
-  getUserBoard() {
+  getUserBoard() { //к нему дописан then в board user
     return axios.get(API_URL + 'user', { headers: authHeader() });
   }
 
@@ -33,8 +29,6 @@ class UserService {
 //       }
 //     );
 // }
-
-
 
 }
 
