@@ -1,7 +1,7 @@
-class projectsService {
-    getProjectService() {
-        <div> projects.service</div >
-    }
-}
+// class projectsService {
+//     getProjectService() {
+//         <div> projects.service</div >
+//     }
+// }
 
-export default new projectsService();
+// export default new projectsService();

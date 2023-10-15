@@ -36,13 +36,13 @@ class BoardUser extends Component {
                 }
             }
         );
-        UserService.printAllProjects().then(
-            response => {
-                this.setState({
-                    projectList: response.data
-                });
-            }
-        );
+        // UserService.printAllProjects().then(
+        //     response => {
+        //         this.setState({
+        //             projectList: response.data
+        //         });
+        //     }
+        // );
     }
 
     render() {
