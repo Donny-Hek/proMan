@@ -13,11 +13,22 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserDetailsServiceImpl implements UserDetailsService {
     private final UserRepository repository;
+
     @Override
     @Transactional
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername (String username) throws UsernameNotFoundException {
         User user = repository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
 
         return UserDetailsImpl.build(user);
-    }}
+    }
+
+//    @Override
+//    public int loadIdByUsername (String username) throws UsernameNotFoundException {
+//        User user = repository.findByUsername(username)
+//                .orElseThrow(() -> new UsernameNotFoundException("User Not Found with username: " + username));
+//
+//        return user.getId();
+//    }
+}
+

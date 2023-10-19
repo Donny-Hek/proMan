@@ -10,7 +10,8 @@ class BoardUser extends Component {
         super(props);
         this.state = {
 
-            content: ""
+            content1: "",
+            content2: ""
         };
     }
 
@@ -18,7 +19,7 @@ class BoardUser extends Component {
         UserService.getUserBoard().then(
             response => {
                 this.setState({
-                    content: response.data
+                    content1: response.data
                 });
             },
             error => {
@@ -36,6 +37,27 @@ class BoardUser extends Component {
                 }
             }
         );
+        // UserService.getUserId().then(
+        //     response => {
+        //         this.setState({
+        //             content2: response.data
+        //         });
+        //     },
+        //     error => {
+        //         this.setState({
+        //             content:
+        //                 (error.response &&
+        //                     error.response.data &&
+        //                     error.response.data.message) ||
+        //                 error.message ||
+        //                 error.toString()
+        //         });
+
+        //         if (error.response && error.response.status === 401) {
+        //             EventBus.dispatch("logout");
+        //         }
+        //     }
+        // );
         // UserService.printAllProjects().then(
         //     response => {
         //         this.setState({
@@ -51,9 +73,10 @@ class BoardUser extends Component {
         return (
             <div className="container">
                 <header className="jumbotron">
-                    <h3>{this.state.content}</h3>
+                    <h3>{this.state.content1}</h3>
                 </header>
-                тут контент для главной домашней страницы
+                {/* {this.state.content2} */}
+                
             </div>
         );
     }

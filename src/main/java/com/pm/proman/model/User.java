@@ -1,5 +1,6 @@
 package com.pm.proman.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.*;
@@ -24,6 +25,7 @@ public class User {
     @Column(name = "email", nullable = false)
     private String email;
     @Column(name = "password_pm", nullable = false)
+    @JsonIgnore
     private String password;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "user")
