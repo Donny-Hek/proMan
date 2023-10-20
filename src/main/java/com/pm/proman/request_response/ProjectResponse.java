@@ -1,14 +1,18 @@
 package com.pm.proman.request_response;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Data
-@Builder
-@AllArgsConstructor
+//@Builder
+@RequiredArgsConstructor
 public class ProjectResponse {
     private long id;
     private String name;
     private String content;
+
+    public ProjectResponse (long id, String name) {
+        this.id=id;
+        this.name=name;
+        this.content="";
+    }
 }
