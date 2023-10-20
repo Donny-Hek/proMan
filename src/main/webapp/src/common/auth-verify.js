@@ -1,6 +1,8 @@
 import React, { useEffect } from "react";
 import { withRouter } from "./with-router";
 
+
+
 const parseJwt = (token) => {
   try {
     return JSON.parse(atob(token.split('.')[1]));

@@ -41,7 +41,8 @@ public class AuthController {
 
         Authentication authentication = authenticationManager
                 .authenticate(
-                        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+                        new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+                                                                loginRequest.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String jwt = jwtUtils.generateJwtToken(authentication);
@@ -49,7 +50,7 @@ public class AuthController {
         UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
         List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
                 .collect(Collectors.toList());
-
+//сюда надр еще добавить список проектов id+название
         return ResponseEntity
                 .ok(new JwtResponse(jwt, "Bearer", userDetails.getId(), userDetails.getUsername(),
                                     userDetails.getEmail(), roles));

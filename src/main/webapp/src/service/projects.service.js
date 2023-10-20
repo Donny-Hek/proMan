@@ -4,8 +4,9 @@ const API_URL = 'http://localhost:8080/test/';
 
 class ProjectsService {
     create(nameproject) {
+        nameproject="Новый проект";
         return axios
-            .post(API_URL + 'add', { headers: authHeader(), params: nameproject })
+            .post(API_URL + 'add', { headers: authHeader(), nameproject })
             .then(response => {
                 if (response.data){
                     localStorage.setItem("projects")
@@ -17,4 +18,4 @@ class ProjectsService {
     // }
 }
 
-export default new projectsService();
+export default new ProjectsService();

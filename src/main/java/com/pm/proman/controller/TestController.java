@@ -20,6 +20,8 @@ public class TestController {
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> userAccess () {
+        //тут будет список проектов выводиться
+
         return ResponseEntity.ok("User Content.");
     }
 
@@ -33,6 +35,8 @@ public class TestController {
 
     @GetMapping("/all")
     public ResponseEntity<?> getProjects (@RequestHeader("Authorization") String toke) {
+        String jwt = toke.substring(7, toke.length());
+        String username = jwtUtils.getUserNameFromJwtToken(jwt);
 
         return ResponseEntity.ok("ok");
     }

@@ -23,7 +23,7 @@ public class Project {
     private String name; //конструктор
     @Column(name = "content")
     private String content;
-    @ManyToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_pm")
     @JsonIgnore
     private User user; //конструктор
