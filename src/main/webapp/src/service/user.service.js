@@ -6,11 +6,11 @@ const API_URL = 'http://localhost:8080/test/';
 
 class UserService {
   getUserBoard() { //к нему дописан then в board user
-    return axios.get(API_URL + 'user', { headers: authHeader() });
+    return axios.get(API_URL + 'user', { headers: authHeader()});
   }
-  getUserId() {
-    return axios.get(API_URL + 'new', { headers: authHeader() });//, params: paramsId() 
-  }
+  // getUserId() {
+  //   return axios.get(API_URL + 'new', { headers: authHeader() });//, params: paramsId() 
+  // }
   
   // при каждом запросе на сервер, будет использоваться header с токеном
 

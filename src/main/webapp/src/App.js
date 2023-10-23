@@ -13,8 +13,8 @@ import BoardUser from "./component/board-user.component";
 
 // import AuthVerify from "./common/auth-verify";
 import EventBus from "./common/EventBus";
-import AppLayout from "./layout.jsx/app.layout";
-import AuthLayout from "./layout.jsx/auth.layout";
+import AppLayout from "./layout/app.layout";
+import AuthLayout from "./layout/auth.layout";
 import authVerify from "./common/auth-verify";
 import AuthVerify from "./common/auth-verify";
 import { type } from "@testing-library/user-event/dist/type";
@@ -23,10 +23,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.logOut = this.logOut.bind(this);
-    
+
     this.state = {
       currentUser: undefined,
-      // isAuthenticated:false,
     };
   }
 
@@ -35,7 +34,6 @@ class App extends Component {
     if (user) {
       this.setState({
         currentUser: user,
-        // isAuthenticated: true,
       });
     }
 
@@ -55,29 +53,13 @@ class App extends Component {
     });
   }
 
-  // type AuthContextType = {
-  //   isAuthenticated: boolean; // флаг, показывающий, аутентифицирован ли пользователь
-  //   setAuth: (auth: boolean) => void; // функция для изменения значения isAuthenticated
-  // };
-  
-  // const AuthContext = createContext<AuthContextType>({
-  //   isAuthenticated: false,
-  //   setAuth: () => { },
-  // });
-  
   render() {
     const currentUser = this.state.currentUser;
-    // const [isAuthenticated,setAuth]=useState<Boolean>(false);
     return (
       <div>
-        
         <Routes>
-          
           {currentUser ? (
             <Route path="/" element={<AppLayout />}>
-              <Route path="/" element={<Login />} />
-              {/* <Route path="/" element={<Profile />} /> */}
-              {/* <Route path="login" element={<Login />} /> */}
               <Route path="profile" element={<Profile />} />
               <Route path="board" element={<BoardUser />} />
               <Route path="board/:id" element={<BoardUser />} />

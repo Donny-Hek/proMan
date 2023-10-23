@@ -37,34 +37,6 @@ class BoardUser extends Component {
                 }
             }
         );
-        // UserService.getUserId().then(
-        //     response => {
-        //         this.setState({
-        //             content2: response.data
-        //         });
-        //     },
-        //     error => {
-        //         this.setState({
-        //             content:
-        //                 (error.response &&
-        //                     error.response.data &&
-        //                     error.response.data.message) ||
-        //                 error.message ||
-        //                 error.toString()
-        //         });
-
-        //         if (error.response && error.response.status === 401) {
-        //             EventBus.dispatch("logout");
-        //         }
-        //     }
-        // );
-        // UserService.printAllProjects().then(
-        //     response => {
-        //         this.setState({
-        //             projectList: response.data
-        //         });
-        //     }
-        // );
     }
 
     render() {
@@ -73,7 +45,7 @@ class BoardUser extends Component {
         return (
             <div className="container">
                 <header className="jumbotron">
-                    <h3>{this.state.content1}</h3>
+                    {/* <h3>{this.state.content1}</h3> */}
                 </header>
                 {/* {this.state.content2} */}
                 

@@ -15,7 +15,10 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @CrossOrigin(value = "http://localhost:8081")
 @RestController
@@ -29,13 +32,17 @@ public class TestController {
     private final UserDetailsServiceImpl userDetailsService;
 
     @GetMapping("/user")
-    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('USER') or hasRole('MODERATOR') or hasRole('ADMIN')")
     public ResponseEntity<?> userAccess (@RequestHeader("Authorization") String token) {
         String jwt = token.substring(7, token.length());
         String username = jwtUtils.getUserNameFromJwtToken(jwt);
         User user = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User Not Found with username: " + username));
-        return ResponseEntity.ok(user.getProjects());
+        List<Project> projects = user.getProjects();
+//        for (Project elem : projects) {
+//            elem.setContent(null);
+//        }
+        return ResponseEntity.ok(projects);
 //        return ResponseEntity.ok("User Content.");
     }
 

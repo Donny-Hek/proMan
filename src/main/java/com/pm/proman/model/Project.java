@@ -16,7 +16,6 @@ import lombok.RequiredArgsConstructor;
 public class Project {
     @Id
     @GeneratedValue
-//  (strategy = GenerationType.IDENTITY)
     @Column(name = "id_project")
     private long id;
     @Column(name = "name_project")
@@ -26,13 +25,10 @@ public class Project {
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "id_pm")
     @JsonIgnore
-    private User user; //конструктор
+    private User user;
 
     public Project (String name, User user) {
         this.name = name;
         this.user = user;
     }
-
-    //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "project")
-//    private List<Content> content = new ArrayList<>();
 }
