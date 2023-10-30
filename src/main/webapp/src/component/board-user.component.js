@@ -4,19 +4,25 @@ import EventBus from "../common/EventBus";
 import { withRouter } from "../common/with-router";
 import projectsService from "../service/projects.service";
 import { DragDropContext } from "react-beautiful-dnd";
+import { parse } from "uuid";
 
 class BoardUser extends Component {
     constructor(props) {
         super(props);
         this.deleteProject = this.deleteProject.bind(this);
+        this.addTask = this.addTask.bind(this);
 
         this.state = {
             id: "",
             pName: "",
-            content: [],//нужно ли поле?
-            ['To do']: [],
-            ['In progress']: [],
-            ['Completed']: []
+            content: {
+                "To Do": [],
+                "In progress": [],
+                "Completed": []
+            }//нужно ли поле?
+            // ['To do']: [],
+            // ['In progress']: [],
+            // ['Completed']: []
         };
     }
 
@@ -29,7 +35,7 @@ class BoardUser extends Component {
         this.setState({
             id: projects.id,
             pName: projects.name,
-            content: projects.content
+            content: JSON.parse(projects.content)
         });
 
     }
@@ -43,42 +49,58 @@ class BoardUser extends Component {
                 window.location.reload()
             });
     }
-    // handleDragEnd(result) {
+    getContent() {
+        // return (
 
-    // }
+        // );
+    }
+    async addTask(e) {
+        e.preventDefault();
+        let name = prompt('Введите название:', ['To Do']);
+        let det = prompt('Введите детали:', ['details']);
+        let todo = await projectsService.addToDo(name, det, 'To Do');
+        let newState = this.state.content["To Do"].push(todo);
+        this.setState({
+            content: {
+                'To Do': newState
+            }
+        });
+    }
 
     render() {
         return (
-            <div className="task-box" class="container px-4 py-5" style={{ width: '1000px', 'min-width':'500px'}}>
-                <h5 className="task-box-title" class="">
+            <div class="px-5 py-3 flex-nowrap" >
+                {/* width: '1000px',  style={{ width: '100vh'}}*/}
+                <h4 class="col">
                     {this.state.pName}
-                    <button className="remove-buttons" class="btn btn-outline-danger px-3" onClick={this.deleteProject}>Удалить проект</button>
-                </h5>
+                </h4>
+                <button className="remove-buttons" class="col btn btn-outline-danger px-3"
+                    onClick={this.deleteProject}
+                >Удалить проект</button>
                 {/* <DragDropContext onDragEnd={(result) => handleDragEnd(result)}> */}
-                <div className="task-box-body" class="row">
-                    <div className='column' class="d-flex col">
-                        колонка 1
-                        <button className="add-task">+</button>
+                <div class="row overflow-hidden" >
+                    {/* {this.outpColumn(this.state.content)} */}
+                    <div class="col border-bottom" style={{ 'minWidth': '300px' }}>
+                        <h5 class="mt-4">To do</h5>
+                        <button class="w-100 btn btn-light btn-block" onClick={this.addTask}>+</button>
+                        {(this.state.content["To Do"].length) ?
+                            <span>Тут что-то есть</span>
+                            : <span>Тут ничего нет.<br /> Добавьте первую задачу</span>}
                     </div>
-                    <div className='column'class="d-flex col">
-                        колонка 2
-                        <button className="add-task">+</button>
+                    <div class="col border-bottom" style={{ 'minWidth': '300px' }}>
+                        <h5 class="mt-4">In progress</h5>
+                        {/* <button class="w-100 btn btn-light btn-block">+</button> */}
+                        {(this.state.content["To Do"].length) ?
+                            <span>Тут что-то есть</span>
+                            : <span>Тут ничего нет.<br /> Добавьте первую задачу</span>}
                     </div>
-                    <div className='column'class="d-flex col">
-                        колонка 3
-                        <button className="add-task">+</button>
+                    <div class="col border-bottom" style={{ 'minWidth': '300px' }}>
+                        <h5 class="mt-4">Completed</h5>
+                        {/* <button class="w-100 btn btn-light btn-block">+</button> */}
+                        {(this.state.content["To Do"].length) ?
+                            <span>Тут что-то есть</span>
+                            : <span>Тут ничего нет.<br /> Добавьте первую задачу</span>}
                     </div>
-                    {/* {
-                        ['To do', 'In progress', 'Completed'].map(tag => (
-                            <Column
-                            // key={tag}
-                            // tag={tag}
-                            // events={events}
-                            // setEvent={setEvent}
-                            // currentEvent={currentEvent}
-                            />
-                        ))
-                    } */}
                 </div>
                 {/* </DragDropContext> */}
             </div>

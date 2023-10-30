@@ -4,6 +4,7 @@ import com.pm.proman.model.Project;
 import com.pm.proman.model.User;
 import com.pm.proman.repository.ProjectRepository;
 import com.pm.proman.repository.UserRepository;
+import com.pm.proman.request_response.Content;
 import com.pm.proman.request_response.MessageResponse;
 import com.pm.proman.request_response.ProjectResponse;
 import com.pm.proman.security.JwtUtils;
@@ -46,7 +47,8 @@ public class TestController {
     public ResponseEntity<?> addProject (@RequestHeader("Authorization") String token, @RequestBody ProjectResponse projectResponse) {
         String username = this.getUsernameFromToken(token);
         Project project = projectService.addToUserUsingfindByUsername(username,
-                                                                      projectResponse.getName()); //создаем проект
+                                                                      projectResponse.getName(),
+                                                                      projectResponse.getContent()); //создаем проект
         return ResponseEntity.ok(new ProjectResponse(project.getId(), project.getName()));
     }
 

@@ -44,7 +44,7 @@ class Sidebar extends Component {// extends Component
           }
         });
         this.props.router.navigate("/board/" + response.data.id)
-        // window.location.reload();
+        window.location.reload();
       });
   }
 
@@ -92,9 +92,9 @@ class Sidebar extends Component {// extends Component
               }) : null}
           </div>
         </div>
-        <div class="px-3 pt-2">
+        {/* <div class="px-3 pt-2"> */}
           <Outlet />
-        </div>
+        {/* </div> */}
       </div>
     );
   }

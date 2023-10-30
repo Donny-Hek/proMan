@@ -19,10 +19,10 @@ public class ProjectService {
     private final UserDetailsServiceImpl userDetailsService;
 
     //    @Transactional
-    public Project addToUserUsingfindByUsername (String username, String name) {
+    public Project addToUserUsingfindByUsername (String username, String name, String content) {
         User localUser = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User Not Found with username: " + username));
-        Project project = new Project(name, localUser);
+        Project project = new Project(name, localUser,content);
         project = projectRepository.save(project);
         return project;
     }

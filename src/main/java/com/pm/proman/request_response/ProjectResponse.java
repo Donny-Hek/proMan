@@ -9,11 +9,17 @@ import lombok.*;
 public class ProjectResponse {
     private long id;
     private String name;
+//    private Content content;
     private String content;
 
     public ProjectResponse (long id, String name) {
         this.id = id;
         this.name = name;
-        this.content = "";
     }
+
+//    public ProjectResponse (long id, String name) {
+//        this.id = id;
+//        this.name = name;
+//        this.content = "";
+//    }
 }

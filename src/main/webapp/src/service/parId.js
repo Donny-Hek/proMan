@@ -1,8 +1,8 @@
-export default function paramsId() {
+export default function paramsUsername() {
     const user = JSON.parse(localStorage.getItem('user'));
   
-    if (user && user.id) {
-      return { id: user.id };
+    if (user && user.username) {
+      return { username: user.username };
     } else {
       return {};
     }

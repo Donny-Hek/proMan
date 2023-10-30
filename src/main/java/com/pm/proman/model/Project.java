@@ -27,8 +27,14 @@ public class Project {
     @JsonIgnore
     private User user;
 
-    public Project (String name, User user) {
+    public Project (String name, User localUser, String content) {
         this.name = name;
-        this.user = user;
+        this.user = localUser;
+        this.content=content;
     }
+
+//    public Project (String name, User user) {
+//        this.name = name;
+//        this.user = user;
+//    }
 }
