@@ -4,7 +4,6 @@ import authService from "../service/auth.service";
 import { Outlet } from "react-router-dom";
 import { withRouter } from "../common/with-router";
 import projectsService from "../service/projects.service";
-import userService from "../service/user.service";
 
 class Sidebar extends Component {// extends Component 
   constructor(props) {
@@ -19,7 +18,7 @@ class Sidebar extends Component {// extends Component
   }
 
   componentDidMount() {
-    userService.getUserBoard()
+    projectsService.getAll()
       .then((response) => {
         if (response.data == 0) {
           this.setState({
@@ -34,20 +33,18 @@ class Sidebar extends Component {// extends Component
       });
   }
 
-  addBoard(e) {
-    e.preventDefault();
-    projectsService.create(this.state.count)
+  async addBoard(e) {
+    // e.preventDefault();
+    await projectsService.create(this.state.count)
       .then((response) => {
-        // if (response.data != 0) {
         this.setState((prevState) => {
           return {
             links: prevState.links.push(response.data),
             count: prevState.count + 1
           }
         });
-        // }
         this.props.router.navigate("/board/" + response.data.id)
-        window.location.reload();
+        // window.location.reload();
       });
   }
 
@@ -55,7 +52,7 @@ class Sidebar extends Component {// extends Component
     return (
       <div class="d-flex flex-nowrap">
         <div class="d-flex flex-column px-sm-2 px-3 pt-2
-        bg-dark vh-100 overflow-hidden" style={{ width: '230px', }}>
+        bg-dark vh-100 overflow-hidden" style={{ width: '230px', 'min-width':'200px'}}>
           {/*кнопки*/}
           <div class="flex-column align-items-center nav">
             <a
@@ -92,9 +89,7 @@ class Sidebar extends Component {// extends Component
                 return (<li class="list-group-item">
                   <a href={"/board/" + board.id} class="nav-link px-0 align-middle ">{board.name}</a>
                 </li>)
-              })
-              : null
-            }
+              }) : null}
           </div>
         </div>
         <div class="px-3 pt-2">

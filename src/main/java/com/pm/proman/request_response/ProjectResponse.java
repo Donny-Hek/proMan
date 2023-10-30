@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 //@Builder
 @RequiredArgsConstructor
-//@AllArgsConstructor
+@AllArgsConstructor
 public class ProjectResponse {
     private long id;
     private String name;

@@ -16,8 +16,9 @@ import java.util.Optional;
 public class ProjectService {
     private final ProjectRepository projectRepository;
     private final UserRepository userRepository;
+    private final UserDetailsServiceImpl userDetailsService;
 
-//    @Transactional
+    //    @Transactional
     public Project addToUserUsingfindByUsername (String username, String name) {
         User localUser = userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException("User Not Found with username: " + username));
@@ -26,4 +27,14 @@ public class ProjectService {
         return project;
     }
 
+    public Project checkBelonging (Long pId, String username) {
+        return projectRepository.findByIdAndUser(username, pId);
+    }
+
+    public boolean deleteProject (Long pId, String username) {
+        if (this.checkBelonging(pId, username)!=null) {
+            projectRepository.deleteById(pId);
+            return true;
+        } else return false;
+    }
 }
