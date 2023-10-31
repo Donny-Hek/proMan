@@ -18,6 +18,7 @@ import AuthLayout from "./layout/auth.layout";
 import authVerify from "./common/auth-verify";
 import AuthVerify from "./common/auth-verify";
 import { type } from "@testing-library/user-event/dist/type";
+import Home from "./component/home.component";
 
 class App extends Component {
   constructor(props) {
@@ -61,6 +62,7 @@ class App extends Component {
           {currentUser ? (
             <Route path="/" element={<AppLayout />}>
               <Route path="profile" element={<Profile />} />
+              <Route path="home" element={<Home />} />
               <Route path="board" element={<BoardUser />} />
               <Route path="board/:id" element={<BoardUser />} />
             </Route>

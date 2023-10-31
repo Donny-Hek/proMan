@@ -1,40 +1,23 @@
 import React, { Component } from "react";
 
-import UserService from "../service/user.service";
+// import UserService from "../service/user.service";
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            content: ""
-        };
     }
 
     componentDidMount() {
-        UserService.getPublicContent().then(
-            response => {
-                this.setState({
-                    content: response.data
-                });
-            },
-            error => {
-                this.setState({
-                    content:
-                        (error.response && error.response.data) ||
-                        error.message ||
-                        error.toString()
-                });
-            }
-        );
+        
     }
 
     render() {
         return (
-            <div className="container">
-                <header className="jumbotron">
-                    <h3>{this.state.content}</h3>
-                </header>
+            <div class="px-5 py-2 flex-nowrap" >
+                {/* px-5 py-3  */}
+                <h4 class="col">
+                    Добавьте новый проект или откройте уже созданный
+                </h4>
                 
             </div>
         );

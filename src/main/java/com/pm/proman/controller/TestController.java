@@ -64,11 +64,20 @@ public class TestController {
                     new ProjectResponse(currProject.getId(), currProject.getName(), currProject.getContent()));
     }
 
-    @GetMapping("/del/{pId}")
+    @GetMapping("/{pId}/del")
     public Boolean deleteProject (@PathVariable long pId, @RequestHeader("Authorization") String token) {//, @RequestHeader("Authorization") String token
         String username = this.getUsernameFromToken(token);
         return projectService.deleteProject(pId, username);
-//        return true;
+    }
+
+    @PostMapping("/{pId}/addTask")
+    public ResponseEntity<?> addTaskToProject (@PathVariable long pId,
+                                               @RequestHeader("Authorization") String token,
+                                               @RequestBody String content) {
+        String username = this.getUsernameFromToken(token);
+        Project newContent = projectService.updateContent(pId, username, content);
+        return ResponseEntity.ok(
+                new ProjectResponse(newContent.getId(), newContent.getName(), newContent.getContent()));
     }
 
     public String getUsernameFromToken (String token) {
