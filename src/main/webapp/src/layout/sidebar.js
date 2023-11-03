@@ -33,9 +33,8 @@ class Sidebar extends Component {// extends Component
       });
   }
 
-  async addBoard(e) {
-    // e.preventDefault();
-    await projectsService.create(this.state.count)
+  async addBoard(e, nameProj) {
+    await projectsService.create(this.state.count, nameProj)
       .then((response) => {
         this.setState((prevState) => {
           return {
@@ -52,7 +51,7 @@ class Sidebar extends Component {// extends Component
     return (
       <div class="d-flex flex-nowrap">
         <div class="d-flex flex-column px-sm-2 px-3 pt-2
-        bg-dark vh-100 overflow-hidden" style={{ width: '230px', 'min-width':'200px'}}>
+        bg-dark vh-100 overflow-hidden" style={{ width: '230px', 'min-width': '200px' }}>
           {/*кнопки*/}
           <div class="flex-column align-items-center nav">
             <a
@@ -72,7 +71,11 @@ class Sidebar extends Component {// extends Component
             </a>
             <button
               class="btn btn-outline-light"
-              onClick={this.addBoard}
+              onClick={() => {
+                let nameProj = prompt('Введите название:', ['Новый проект']);
+                if (nameProj == null) return;
+                else this.addBoard(this, nameProj);
+              }}
             >
               Новый проект
             </button>
@@ -93,7 +96,7 @@ class Sidebar extends Component {// extends Component
           </div>
         </div>
         {/* <div class="px-3 pt-2"> */}
-          <Outlet />
+        <Outlet />
         {/* </div> */}
       </div>
     );

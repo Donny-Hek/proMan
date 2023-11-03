@@ -70,7 +70,7 @@ public class TestController {
         return projectService.deleteProject(pId, username);
     }
 
-    @PostMapping("/{pId}/addTask")
+    @PostMapping("/{pId}/edit")//add + delete
     public ResponseEntity<?> addTaskToProject (@PathVariable long pId,
                                                @RequestHeader("Authorization") String token,
                                                @RequestBody String content) {

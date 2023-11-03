@@ -5,7 +5,6 @@ const API_URL = 'http://localhost:8080/test/';
 class ProjectsService {
     constructor() {
         this.user = JSON.parse(localStorage.getItem('user'));
-        axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.user.token;
 
         this.name = "Новый проект";
         this.content = {
@@ -24,11 +23,9 @@ class ProjectsService {
         return axios.get(API_URL + 'user', { headers: authHeader() });
     }
     // добавление проекта
-    create(counter) {
-        let nameProj = prompt('Введите название:', ['Новый проект']);
-        // let nameProj = this.name;
+    create(counter, nameProj) {
         let contentProj = JSON.stringify(this.content);
-        if (nameProj == 'Новый проект') {
+        if (nameProj == 'Новый проект' && counter > 0) {
             nameProj = nameProj + " " + counter;
         }
         return axios
@@ -59,14 +56,13 @@ class ProjectsService {
         this.toDo.subtitle = cont;
         this.toDo.section = key;
 
-        const url = API_URL + id + '/addTask';
+        const url = API_URL + id + '/edit';
 
         let project = JSON.parse(localStorage.getItem(id)); //вывод проекта
         this.content = JSON.parse(project.content); //парсинг строки в объект
         this.content[key].push(this.toDo);
         let newContent = JSON.stringify(this.content);
 
-        // axios.defaults.headers.common['Authorization'] = 'Bearer ' + this.user.token;
         return axios({
             method: 'post',
             url: url,
@@ -75,11 +71,31 @@ class ProjectsService {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + this.user.token
             }
-
+        }).then(response => {
+            localStorage.setItem(id, JSON.stringify(response.data));
         });
-        // return axios.post(url, { newContent }, { headers: authHeader() });
     }
-    // изменение названия
+    // удаление задачи
+    delToDo(id, key, section) {
+        const url = API_URL + id + '/edit';
+        let project = JSON.parse(localStorage.getItem(id)); //вывод проекта
+        this.content = JSON.parse(project.content); //парсинг строки в объект
+
+        this.content['To Do'].splice(key, 1);
+        // alert(this.content['To Do'].map((item)=>{return item.title}))
+        let newContent = JSON.stringify(this.content);
+        return axios({
+            method: 'post',
+            url: url,
+            data: newContent,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.user.token
+            }
+        }).then(response => {
+            localStorage.setItem(id, JSON.stringify(response.data));
+        });
+    }
     // изменение содержания
 
 }
