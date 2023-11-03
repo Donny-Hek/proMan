@@ -80,8 +80,21 @@ class ProjectsService {
         const url = API_URL + id + '/edit';
         let project = JSON.parse(localStorage.getItem(id)); //вывод проекта
         this.content = JSON.parse(project.content); //парсинг строки в объект
-
-        this.content['To Do'].splice(key, 1);
+        // alert(section);
+        switch (section) {
+            case "To Do":
+                this.content[section].splice(key, 1);
+                break;
+            case "In progress":
+                this.content[section].splice(key, 1);
+                break;
+            case "Completed":
+                this.content[section].splice(key, 1);
+                break;
+            default:
+                alert("Произошла ошибка");
+                return;
+        }
         // alert(this.content['To Do'].map((item)=>{return item.title}))
         let newContent = JSON.stringify(this.content);
         return axios({
@@ -97,7 +110,41 @@ class ProjectsService {
         });
     }
     // изменение содержания
+    editColumn(id, key, section) { //нынешний столбец -- section
+        const url = API_URL + id + '/edit';
+        let project = JSON.parse(localStorage.getItem(id)); //вывод проекта
+        this.content = JSON.parse(project.content); //парсинг содержания проекта в объекты
 
+        this.toDo = this.content[section][key]; //записываю меняющую секцию задачу в переменную
+        switch (section) {
+            case "To Do":
+                this.content[section].splice(key, 1); //удаляю задачу из нынешней секции
+                this.toDo.section = "In progress";
+                this.content["In progress"].push(this.toDo); //добавляю задачу в конец следующей секции
+                break;
+            case "In progress":
+                this.content[section].splice(key, 1); //удаляю задачу из нынешней секции
+                this.toDo.section = "Completed";
+                this.content["Completed"].push(this.toDo);
+                break;
+            default:
+                alert("Упс! Эту задачу можно только удалить:)");
+                return;
+        }
+        let newContent = JSON.stringify(this.content);
+        return axios({
+            method: 'post',
+            url: url,
+            data: newContent,
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + this.user.token
+            }
+        }).then(response => {
+            localStorage.setItem(id, JSON.stringify(response.data));
+        });
+    }
 }
 
 export default new ProjectsService();
+// alert(this.content[section].map((item) => { return item.title }))

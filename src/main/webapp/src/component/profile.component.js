@@ -28,7 +28,7 @@ export default class Profile extends Component {
         const { currentUser } = this.state;
 
         return (
-            <div >
+            <div class="px-5 py-3 d-flex flex-nowrap flex-column vh-100">
                 {(this.state.userReady) ?
                     <div>
                         <header>

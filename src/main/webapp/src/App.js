@@ -63,7 +63,7 @@ class App extends Component {
             <Route path="/" element={<AppLayout />}>
               <Route path="profile" element={<Profile />} />
               <Route path="home" element={<Home />} />
-              {/* <Route path="board" element={<BoardUser />} /> */}
+              <Route path="board" element={<Home />} />
               <Route path="board/:id" element={<BoardUser />} />
             </Route>
           ) : (

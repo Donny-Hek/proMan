@@ -7,14 +7,6 @@ class BoardUser extends Component {
     constructor(props) {
         super(props);
         this.deleteProject = this.deleteProject.bind(this);
-        // this.addTask = this.addTask.bind(this);
-        // this.deleteTask = this.addTask.bind(this);
-
-        // this.editTask = this.editTask();
-        // this.todo = [];
-        // this.inprogres = [];
-        // this.completed = [];
-
         this.state = {
             id: "",
             pName: "",
@@ -56,12 +48,12 @@ class BoardUser extends Component {
             });
     }
 
-    async addTask(e) {
+    async addTask(section, e) {
         // e.preventDefault();
-        let name = prompt('Введите название:', ['To Do']);
+        let name = prompt('Введите название:', [section]);
         let det = prompt('Введите детали:', ['details']);
         if (name == null || det == null) window.location.reload();
-        else await projectsService.addToDo(name, det, 'To Do', this.state.id)
+        else await projectsService.addToDo(name, det, section, this.state.id)
 
         let projects = await projectsService.getObjProject(this.state.id);
 
@@ -73,7 +65,6 @@ class BoardUser extends Component {
 
     async deleteTask(key, section, e) {
         // e.preventDefault();
-        // alert(key + " " + section);
         await projectsService.delToDo(this.state.id, key, section);
         let projects = await projectsService.getObjProject(this.state.id);
         this.setState({
@@ -81,6 +72,16 @@ class BoardUser extends Component {
         });
         window.location.reload();
     }
+
+    async editStage(key, section, e) { //нынешний столбец -- section
+        await projectsService.editColumn(this.state.id, key, section);
+        let projects = await projectsService.getObjProject(this.state.id);
+        this.setState({
+            content: JSON.parse(projects.content)
+        });
+        window.location.reload();
+    }
+
     render() {
         let num;
         let sec;
@@ -98,25 +99,30 @@ class BoardUser extends Component {
                     {/* To Do */}
                     <div class="d-flex flex-column flex-nowrap border-bottom px-sm-2 px-3 pt-2" style={{ 'minWidth': '300px' }}>
                         <h5 class="mt-4">To do</h5>
-                        <button class="w-100 btn btn-light btn-block" onClick={this.addTask.bind(this)}>+</button>
+                        <button class="w-100 btn btn-light btn-block" onClick={(e) => { this.addTask("To Do", e) }}>+</button>
                         <div class="overflow-y-auto flex-column flex-nowrap">
                             <ul class="list-group">
-                                {/* this.state.content["To Do"] */}
                                 {Array.isArray(this.state.content["To Do"]) && this.state.content["To Do"].length != 0 ?
                                     this.state.content["To Do"].map((todo, index) => {
                                         return (
                                             <li class="list-group-item ">
-                                                <div class="border-bottom">{index + "--" + todo.title}</div>
+                                                <div class="border-bottom">{todo.title}</div>
                                                 <div>{todo.subtitle}</div>
                                                 <div class="d-flex flex-row flex-nowrap justify-content-between">
                                                     <button class="btn btn-outline-danger"
                                                         onClick={(e) => {
                                                             num = index;
-                                                            sec = JSON.stringify(todo.section);
+                                                            sec = todo.section.toString();
                                                             this.deleteTask(num, sec, e)
                                                         }}
                                                     >Удалить</button>
-                                                    <button class="btn btn-outline-success">{'==>'}</button>
+                                                    <button class="btn btn-outline-success"
+                                                        onClick={(e) => {
+                                                            num = index;
+                                                            sec = todo.section.toString();
+                                                            this.editStage(num, sec, e);
+                                                        }}
+                                                    >{'==>'}</button>
                                                 </div>
                                             </li>
                                         )
@@ -128,42 +134,64 @@ class BoardUser extends Component {
                     {/* In progress */}
                     <div class="d-flex flex-column flex-nowrap border-bottom px-sm-2 px-3 pt-2" style={{ 'minWidth': '300px' }}>
                         <h5 class="mt-4">In progress</h5>
+                        <button class="w-100 btn btn-light btn-block" onClick={(e) => { this.addTask("In progress", e) }}>+</button>
                         <div class="overflow-y-auto flex-column flex-nowrap">
-                            {/* this.state.content["In progress"] */}
-                            {Array.isArray(this.state.content["In progress"]) && this.state.content["In progress"].length != 0 ?
-                                this.state.content["In progress"].map((todo) => {
-                                    return (
-                                        <li class="list-group-item ">
-                                            <div class="border-bottom">{todo.title}</div>
-                                            <div>{todo.subtitle}</div>
-                                            <div class="d-flex flex-row flex-nowrap justify-content-between">
-                                                <button class="btn btn-outline-danger">Удалить</button>
-                                                <button class="btn btn-outline-success">{'==>'}</button>
-                                            </div>
-                                        </li>
-                                    )
-                                })
-                                : <span>Тут ничего нет.<br /> Начните первую задачу</span>}
+                            <ul class="list-group">
+                                {Array.isArray(this.state.content["In progress"]) && this.state.content["In progress"].length != 0 ?
+                                    this.state.content["In progress"].map((todo, index) => {
+                                        return (
+                                            <li class="list-group-item ">
+                                                <div class="border-bottom">{todo.title}</div>
+                                                <div>{todo.subtitle}</div>
+                                                <div class="d-flex flex-row flex-nowrap justify-content-between">
+                                                    <button class="btn btn-outline-danger"
+                                                        onClick={(e) => {
+                                                            num = index;
+                                                            sec = todo.section.toString();
+                                                            this.deleteTask(num, sec, e)
+                                                        }}
+                                                    >Удалить</button>
+                                                    <button class="btn btn-outline-success"
+                                                        onClick={(e) => {
+                                                            num = index;
+                                                            sec = todo.section.toString();
+                                                            this.editStage(num, sec, e);
+                                                        }}
+                                                    >{'==>'}</button>
+                                                </div>
+                                            </li>
+                                        )
+                                    })
+                                    : <span>Тут ничего нет.<br /> Начните первую задачу</span>}
+                            </ul>
                         </div>
                     </div>
                     {/* Completed */}
                     <div class="d-flex flex-column flex-nowrap border-bottom px-sm-2 px-3 pt-2" style={{ 'minWidth': '300px' }}>
                         <h5 class="mt-4">Completed</h5>
+                        <button class="w-100 btn btn-light btn-block" onClick={(e) => { this.addTask("Completed", e) }}>+</button>
                         <div class="overflow-y-auto flex-column flex-nowrap">
-                            {/* this.state.content["Completed"] */}
-                            {Array.isArray(this.state.content["Completed"]) && this.state.content["Completed"].length != 0 ?
-                                this.state.content["Completed"].map((todo, key) => {
-                                    return (
-                                        <li class="list-group-item ">
-                                            <div class="border-bottom">{todo.title}</div>
-                                            <div>{todo.subtitle}</div>
-                                            <div class="d-flex flex-row flex-nowrap justify-content-between">
-                                                <button class="btn btn-outline-danger">Удалить</button>
-                                            </div>
-                                        </li>
-                                    )
-                                })
-                                : <span>Тут ничего нет.<br /> Закончите первую задачу</span>}
+                            <ul class="list-group">
+                                {Array.isArray(this.state.content["Completed"]) && this.state.content["Completed"].length != 0 ?
+                                    this.state.content["Completed"].map((todo, index) => {
+                                        return (
+                                            <li class="list-group-item ">
+                                                <div class="border-bottom">{todo.title}</div>
+                                                <div>{todo.subtitle}</div>
+                                                <div class="d-flex flex-row flex-nowrap justify-content-between">
+                                                    <button class="btn btn-outline-danger"
+                                                        onClick={(e) => {
+                                                            num = index;
+                                                            sec = todo.section.toString();
+                                                            this.deleteTask(num, sec, e)
+                                                        }}
+                                                    >Удалить</button>
+                                                </div>
+                                            </li>
+                                        )
+                                    })
+                                    : <span>Тут ничего нет.<br /> Закончите первую задачу</span>}
+                            </ul>
                         </div>
                     </div>
                 </div>
