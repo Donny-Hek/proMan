@@ -39,12 +39,10 @@ class ProjectsService {
     }
     // запись проекта в память
     getProject(id) {
-        // if (localStorage.getItem(id) == 0) {
         return axios.get(API_URL + id, { headers: authHeader() })
             .then(response => {
                 localStorage.setItem(id, JSON.stringify(response.data));
             });
-        // } else return localStorage.getItem(id);
     }
     // вывод проекта из памяти по id
     getObjProject(id) {
@@ -80,7 +78,7 @@ class ProjectsService {
         const url = API_URL + id + '/edit';
         let project = JSON.parse(localStorage.getItem(id)); //вывод проекта
         this.content = JSON.parse(project.content); //парсинг строки в объект
-        // alert(section);
+        
         switch (section) {
             case "To Do":
                 this.content[section].splice(key, 1);
@@ -95,7 +93,6 @@ class ProjectsService {
                 alert("Произошла ошибка");
                 return;
         }
-        // alert(this.content['To Do'].map((item)=>{return item.title}))
         let newContent = JSON.stringify(this.content);
         return axios({
             method: 'post',
@@ -147,4 +144,3 @@ class ProjectsService {
 }
 
 export default new ProjectsService();
-// alert(this.content[section].map((item) => { return item.title }))
